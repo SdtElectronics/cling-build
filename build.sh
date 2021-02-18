@@ -1,5 +1,18 @@
- #!/bin/bash
- 
+#!/bin/bash
+#
+# SdtElectronics 2021
+#
+# Modified based on https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=cling
+# and https://github.com/Axel-Naumann/cling-all-in-one/blob/master/clone.sh
+#
+# arguments:
+#   [cores]  number of cores to use, optional
+#            default: all detected cores
+
+git clone -b cling-patches http://root.cern.ch/git/llvm.git --depth=1
+git clone -b cling-patches http://root.cern.ch/git/clang.git --depth=1
+git clone http://root.cern/git/cling.git --depth=1 
+
 cores=${1:-$nproc}
  
 srcdir=`pwd`
@@ -48,12 +61,9 @@ build() {
 
     make -j$cores -C tools/clang
     make -j$cores -C tools/cling
-    make -j8 install
+    make -j$cores install
 }
 
 prepare
 
 build
-
-
-
